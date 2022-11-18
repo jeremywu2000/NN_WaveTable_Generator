@@ -2,7 +2,7 @@
 
 ## Compiling wavae_daisy
 
-If this is the first time building the project and have not compiled the libraries make sure to follow the next subsections.
+If this is the first time building the project and have not compiled the libraries make sure to follow the next subsection.
 Alternaitvely, you may execute the `build_all` task in the wavae_daisy directory through VS code.
 
 To build wavae_daisy simply run the command `make` in it's directory.
