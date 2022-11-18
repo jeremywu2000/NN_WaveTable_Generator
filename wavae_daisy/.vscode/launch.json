@@ -10,7 +10,7 @@
         "-d",
         "${workspaceRoot}"
       ],
-      "executable": "${workspaceRoot}/build/wave_vae.elf",
+      "executable": "${workspaceRoot}/build/wavae_daisy.elf",
       "interface": "swd",
       "name": "Cortex Debug",
       "openOCDLaunchCommands": [

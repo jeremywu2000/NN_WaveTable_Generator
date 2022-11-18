@@ -1,8 +1,8 @@
 # Project Name
-TARGET = wave_vae
+TARGET = wavae_daisy
 
 # Sources
-CPP_SOURCES = wave_vae.cpp
+CPP_SOURCES = wavae_daisy.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../libDaisy/
