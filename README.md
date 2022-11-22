@@ -1,5 +1,22 @@
 # NN_WaveTable_Generator
 
+## Getting the Source
+
+There are a few ways to clone and initialize the repo (with its submodules).
+
+You can do either of the following:
+
+```sh
+git clone --recursive https://github.com/electro-smith/DaisyExamples
+```
+
+or
+
+```sh
+git clone https://github.com/electro-smith/DaisyExamples
+git submodule update --init
+```
+
 ## Compiling wavae_daisy
 
 If this is the first time building the project and have not compiled the libraries make sure to follow the next subsection.
