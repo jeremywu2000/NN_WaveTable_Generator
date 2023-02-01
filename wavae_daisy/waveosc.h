@@ -53,11 +53,21 @@ class WaveOsc
         phaseInc = wave_size * norm_freq;
     }
 
+    /**
+     * @brief Sets the amplitude
+     * 
+     * @param a 
+     */
     void SetAmp(const float a)
     {
         amp = a;
     }
 
+    /**
+     * @brief Sets the next wave buffer
+     * 
+     * @param wave 
+     */
     void SetWave(Wave *wave)
     {
         nextWave = wave;

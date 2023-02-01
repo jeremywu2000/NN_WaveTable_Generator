@@ -36,6 +36,11 @@ int main(void)
         sine.samples[i] = sinf(i * step);
     }
 
+    for (size_t i = 0; i < WAVE_LEN; i++)
+    {
+        tri.samples[i] = i * (2/WAVE_LEN) + -1;
+    }
+
     // step = 2.f / WAVE_LEN;
     // for(auto idx = 0; idx < WAVE_LEN; idx++)
     // {
