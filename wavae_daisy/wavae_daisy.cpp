@@ -79,6 +79,7 @@ int main(void)
     hw.SetAudioBlockSize(4); // number of samples handled per callback
     hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
     hw.StartAudio(AudioCallback);
+    hw.StartLog(true);
     while (1)
     {
         // Fill input buffer (use test value)
@@ -94,6 +95,8 @@ int main(void)
             buf_len = sprintf(buf, "Error: could not run inference\r\n");
             // HAL_UART_Transmit(&huart2, (uint8_t *)buf, buf_len, 100);
         }
+        hw.PrintLine("%d",nbatch);
+        
 
         // Read output (predicted y) of neural network
         y_val = ((float *)out_data)[0];
