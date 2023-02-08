@@ -12,6 +12,8 @@ DAISYSP_DIR = ../DaisySP/
 # Cube_AI
 ######################################
 # source
+CPP_SOURCES += network.cpp
+
 C_SOURCES =  \
 X-CUBE-AI/App/sine_model.c \
 X-CUBE-AI/App/sine_model_data.c \
