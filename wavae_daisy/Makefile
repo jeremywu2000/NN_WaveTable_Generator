@@ -6,28 +6,30 @@ CPP_SOURCES = wavae_daisy.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../libDaisy/
-DAISYSP_DIR = ../DaisySP/
 
 ######################################
 # Cube_AI
 ######################################
+CUBE_DIR = ../wavae_cube/
+
 # source
 CPP_SOURCES += network.cpp
 
+# TODO replace with vae model
 C_SOURCES =  \
-X-CUBE-AI/App/sine_model.c \
-X-CUBE-AI/App/sine_model_data.c \
-X-CUBE-AI/App/sine_model_data_params.c \
+$(CUBE_DIR)/X-CUBE-AI/App/sine_model.c \
+$(CUBE_DIR)/X-CUBE-AI/App/sine_model_data.c \
+$(CUBE_DIR)/X-CUBE-AI/App/sine_model_data_params.c \
 
 C_INCLUDES =  \
--IMiddlewares/ST/AI/Inc \
--IX-CUBE-AI/App \
+-I$(CUBE_DIR)/Middlewares/ST/AI/Inc \
+-I$(CUBE_DIR)/X-CUBE-AI/App \
 
 # LDFLAGS
 LIBS =  \
 -l:NetworkRuntime730_CM7_GCC.a
 LIBDIR =  \
--LMiddlewares/ST/AI/Lib
+-L$(CUBE_DIR)/Middlewares/ST/AI/Lib
 ######################################
 
 # Core location, and generic Makefile.

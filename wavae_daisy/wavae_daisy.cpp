@@ -22,6 +22,7 @@ int main(void)
     hw.StartLog(true);
     hw.PrintLine("Daisy Patch SM started. Test Beginning");
 
+    // Enable STM32 CRC IP to use the network-runtime library
     __HAL_RCC_CRC_CLK_ENABLE();
 
     int err = 0;

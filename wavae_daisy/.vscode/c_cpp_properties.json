@@ -12,8 +12,8 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/../libDaisy/**",
-        "${workspaceFolder}/../DaisySP/**",
-        "${workspaceFolder}/X-CUBE-AI/App/**"
+        "${workspaceFolder}/../wavae_cube/X-CUBE-AI/App/**",
+        "${workspaceFolder}/../wavae_cube/Middlewares/ST/AI/Inc/**"
       ],
       "name": "Win32",
       "windowsSdkVersion": "10.0.17763.0"
@@ -30,8 +30,8 @@
       "includePath": [
         "${workspaceFolder}/**",
         "${workspaceFolder}/../libDaisy/**",
-        "${workspaceFolder}/../DaisySP/**",
-        "${workspaceFolder}/X-CUBE-AI/App/**"
+        "${workspaceFolder}/../wavae_cube/X-CUBE-AI/App/**",
+        "${workspaceFolder}/../wavae_cube/Middlewares/ST/AI/Inc/**"
       ],
       "name": "macOS"
     }
