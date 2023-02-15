@@ -1,0 +1,164 @@
+Neural Network Tools for STM32AI v1.6.0 (STM.ai v7.3.0-RC5)
+Created date          : 2023-02-15 16:29:39
+Parameters            : generate --name vae -m C:/Users/simon/Documents/McGill University/ECSE 458D2 Capstone Design Project/NN_WaveTable_Generator/wavae_notebooks/keras_decoder_untrained.h5 --type keras --compression none --verbosity 1 --workspace C:\Users\simon\AppData\Local\Temp\mxAI_workspace3203203522758003723342240043565875 --output C:\Users\simon\.stm32cubemx\network_output --allocate-inputs --allocate-outputs
+
+Exec/report summary (generate)
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+model file         :   C:\Users\simon\Documents\McGill University\ECSE 458D2 Capstone Design Project\NN_WaveTable_Generator\wavae_notebooks\keras_decoder_untrained.h5
+type               :   keras                                                                                                                                          
+c_name             :   vae                                                                                                                                            
+compression        :   none                                                                                                                                           
+options            :   allocate-inputs, allocate-outputs                                                                                                              
+optimization       :   balanced                                                                                                                                       
+target/series      :   generic                                                                                                                                        
+workspace dir      :   C:\Users\simon\AppData\Local\Temp\mxAI_workspace3203203522758003723342240043565875                                                             
+output dir         :   C:\Users\simon\.stm32cubemx\network_output                                                                                                     
+model_fmt          :   float                                                                                                                                          
+model_name         :   keras_decoder_untrained                                                                                                                        
+model_hash         :   fe8033941b2e83da7fae867f1a51003d                                                                                                               
+params #           :   2,385 items (9.32 KiB)                                                                                                                         
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+input 1/1          :   'input_0' (domain:activations/**default**)                                                                                                     
+                   :   16 items, 64 B, ai_float, float, (1,1,16,1)                                                                                                    
+output 1/1         :   'conv2d_transpose_1' (domain:activations/**default**)                                                                                          
+                   :   256 items, 1024 B, ai_float, float, (1,1,256,1)                                                                                                
+macc               :   285,137                                                                                                                                        
+weights (ro)       :   9,540 B (9.32 KiB) (1 segment)                                                                                                                 
+activations (rw)   :   24,512 B (23.94 KiB) (1 segment) *                                                                                                             
+ram (total)        :   24,512 B (23.94 KiB) = 24,512 + 0 + 0                                                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+(*) 'input'/'output' buffers can be used from the activations buffer
+
+Model name - keras_decoder_untrained ['input_0'] ['conv2d_transpose_1']
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+id   layer (type,original)                                        oshape                    param/size    macc    connected to                |   c_size            c_macc              c_type                                                   
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+0    input_0 (Input, None)                                        [b:None,h:1,w:16,c:1]                                                       |   +1,024(+100.0%)   +4,096(+100.0%)     dense_of32[0]                                            
+     dense_1_dense (Dense, Dense)                                 [b:None,h:1,w:16,c:128]   256/1,024     4,096   input_0                     |   -1,024(-100.0%)   -4,096(-100.0%)    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+1    reshape_1 (Reshape, Reshape)                                 [b:1,h:1,w:64,c:32]                             dense_1_dense               |                                        
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+2    conv2d_transpose_conv2d (ConvTranspose, Conv2DTranspose)     [b:1,h:1,w:128,c:16]      2,064/8,256           reshape_1                   |                     +262,160(+100.0%)   upsample_of32/conv2d_of32/pad_of32/nl_of32[1, 2, 3, 4]   
+     conv2d_transpose (Nonlinearity, Conv2DTranspose)             [b:1,h:1,w:128,c:16]                    2,048   conv2d_transpose_conv2d     |                     -2,048(-100.0%)    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+3    conv2d_transpose_1_conv2d (ConvTranspose, Conv2DTranspose)   [b:1,h:1,w:256,c:1]       65/260                conv2d_transpose            |                     +18,881(+100.0%)    upsample_of32/conv2d_of32/pad_of32/nl_of32[o][5, 6, 7, 8]
+     conv2d_transpose_1 (Nonlinearity, Conv2DTranspose)           [b:1,h:1,w:256,c:1]                     2,560   conv2d_transpose_1_conv2d   |                     -2,560(-100.0%)    
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+model/c-model: macc=8,704/285,137 +276,433(+3175.9%) weights=9,540/9,540  activations=--/24,512 io=--/0
+
+
+
+Generated C-graph summary
+------------------------------------------------------------------------------------------------------------------------
+model name            : keras_decoder_untrained
+c-name                : vae
+c-node #              : 9
+c-array #             : 16
+activations size      : 24512 (1 segment)
+weights size          : 9540 (1 segment)
+macc                  : 285137
+inputs                : ['input_0_output']
+outputs               : ['conv2d_transpose_1_output']
+
+C-Arrays (16)
+--------------------------------------------------------------------------------------------------------------------------
+c_id   name (*_array)                              item/size    domain/mem-pool           c-type        fmt       comment
+--------------------------------------------------------------------------------------------------------------------------
+0      conv2d_transpose_conv2d_upsample_output     4064/16256   activations/**default**   float         float32          
+1      conv2d_transpose_conv2d_weights             2048/8192    weights/weights           const float   float32          
+2      conv2d_transpose_conv2d_output              2032/8128    activations/**default**   float         float32          
+3      conv2d_transpose_conv2d_pad_output          2048/8192    activations/**default**   float         float32          
+4      conv2d_transpose_conv2d_bias                16/64        weights/weights           const float   float32          
+5      conv2d_transpose_output                     2048/8192    activations/**default**   float         float32          
+6      conv2d_transpose_1_conv2d_upsample_output   4080/16320   activations/**default**   float         float32          
+7      conv2d_transpose_1_conv2d_weights           64/256       weights/weights           const float   float32          
+8      conv2d_transpose_1_conv2d_output            255/1020     activations/**default**   float         float32          
+9      conv2d_transpose_1_conv2d_pad_output        256/1024     activations/**default**   float         float32          
+10     conv2d_transpose_1_conv2d_bias              1/4          weights/weights           const float   float32          
+11     conv2d_transpose_1_output                   256/1024     activations/**default**   float         float32   /output
+12     dense_1_dense_bias                          128/512      weights/weights           const float   float32          
+13     dense_1_dense_weights                       128/512      weights/weights           const float   float32          
+14     input_0_output                              16/64        activations/**default**   float         float32   /input 
+15     dense_1_dense_output                        2048/8192    activations/**default**   float         float32          
+--------------------------------------------------------------------------------------------------------------------------
+
+C-Layers (9)
+-----------------------------------------------------------------------------------------------------------------------------------------------
+c_id   name (*_layer)                       id   layer_type   macc     rom    tensors                                        shape (array id) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+0      dense_1_dense                        0    dense        4096     1024   I: input_0_output                              (1,1,16,1) (14)  
+                                                                              W: dense_1_dense_weights                       (1,1,1,128) (13) 
+                                                                              W: dense_1_dense_bias                          (1,1,1,128) (12) 
+                                                                              O: dense_1_dense_output                        (1,1,16,128) (15)
+-----------------------------------------------------------------------------------------------------------------------------------------------
+1      conv2d_transpose_conv2d_upsample     2    upsample     0        0      I: dense_1_dense_output0                       (1,1,64,32) (15) 
+                                                                              O: conv2d_transpose_conv2d_upsample_output     (1,1,127,32) (0) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+2      conv2d_transpose_conv2d              2    conv2d       260112   8256   I: conv2d_transpose_conv2d_upsample_output     (1,1,127,32) (0) 
+                                                                              W: conv2d_transpose_conv2d_weights             (32,16,4,1) (1)  
+                                                                              W: conv2d_transpose_conv2d_bias                (1,1,1,16) (4)   
+                                                                              O: conv2d_transpose_conv2d_output              (1,1,127,16) (2) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+3      conv2d_transpose_conv2d_pad          2    pad          0        0      I: conv2d_transpose_conv2d_output              (1,1,127,16) (2) 
+                                                                              O: conv2d_transpose_conv2d_pad_output          (1,1,128,16) (3) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+4      conv2d_transpose                     2    nl           2048     0      I: conv2d_transpose_conv2d_pad_output          (1,1,128,16) (3) 
+                                                                              O: conv2d_transpose_output                     (1,1,128,16) (5) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+5      conv2d_transpose_1_conv2d_upsample   3    upsample     0        0      I: conv2d_transpose_output                     (1,1,128,16) (5) 
+                                                                              O: conv2d_transpose_1_conv2d_upsample_output   (1,1,255,16) (6) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+6      conv2d_transpose_1_conv2d            3    conv2d       16321    260    I: conv2d_transpose_1_conv2d_upsample_output   (1,1,255,16) (6) 
+                                                                              W: conv2d_transpose_1_conv2d_weights           (16,1,4,1) (7)   
+                                                                              W: conv2d_transpose_1_conv2d_bias              (1,1,1,1) (10)   
+                                                                              O: conv2d_transpose_1_conv2d_output            (1,1,255,1) (8)  
+-----------------------------------------------------------------------------------------------------------------------------------------------
+7      conv2d_transpose_1_conv2d_pad        3    pad          0        0      I: conv2d_transpose_1_conv2d_output            (1,1,255,1) (8)  
+                                                                              O: conv2d_transpose_1_conv2d_pad_output        (1,1,256,1) (9)  
+-----------------------------------------------------------------------------------------------------------------------------------------------
+8      conv2d_transpose_1                   3    nl           2560     0      I: conv2d_transpose_1_conv2d_pad_output        (1,1,256,1) (9)  
+                                                                              O: conv2d_transpose_1_output                   (1,1,256,1) (11) 
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+Number of operations per c-layer
+------------------------------------------------------------------------------------------------------------------------
+c_id    m_id   name (type)                                     #op (type)                       #param (sparsity)      
+------------------------------------------------------------------------------------------------------------------------
+0       0      dense_1_dense (dense)                                     4,096 (smul_f32_f32)              256 (0.5000)
+1       2      conv2d_transpose_conv2d_upsample (upsample)                   0 (smul_f32_f32)                          
+2       2      conv2d_transpose_conv2d (conv2d)                        260,112 (smul_f32_f32)            2,064 (0.0078)
+3       2      conv2d_transpose_conv2d_pad (pad)                             0 (smul_f32_f32)                          
+4       2      conv2d_transpose (nl)                                     2,048 (op_f32_f32)                            
+5       3      conv2d_transpose_1_conv2d_upsample (upsample)                 0 (smul_f32_f32)                          
+6       3      conv2d_transpose_1_conv2d (conv2d)                       16,321 (smul_f32_f32)               65 (0.0154)
+7       3      conv2d_transpose_1_conv2d_pad (pad)                           0 (smul_f32_f32)                          
+8       3      conv2d_transpose_1 (nl)                                   2,560 (op_f32_f32)                            
+------------------------------------------------------------------------------------------------------------------------
+total                                                                  285,137                           2,385 (0.0608)
+
+  Number of operation types
+  ---------------------------------------------
+  smul_f32_f32             280,529       98.4%
+  op_f32_f32                 4,608        1.6%
+
+Complexity report (model)
+----------------------------------------------------------------------------------------------------
+m_id   name                        c_macc                    c_rom                     c_id        
+----------------------------------------------------------------------------------------------------
+0      input_0                     |                  1.4%   ||                10.7%   [0]         
+2      conv2d_transpose_conv2d     ||||||||||||||||  91.9%   ||||||||||||||||  86.5%   [1, 2, 3, 4]
+3      conv2d_transpose_1_conv2d   ||                 6.6%   |                  2.7%   [5, 6, 7, 8]
+----------------------------------------------------------------------------------------------------
+macc=285,137 weights=9,540 act=24,512 ram_io=0
+
+Generated files (7)
+----------------------------------------------------------------------
+C:\Users\simon\.stm32cubemx\network_output\vae_config.h
+C:\Users\simon\.stm32cubemx\network_output\vae.h
+C:\Users\simon\.stm32cubemx\network_output\vae.c
+C:\Users\simon\.stm32cubemx\network_output\vae_data_params.h
+C:\Users\simon\.stm32cubemx\network_output\vae_data_params.c
+C:\Users\simon\.stm32cubemx\network_output\vae_data.h
+C:\Users\simon\.stm32cubemx\network_output\vae_data.c
