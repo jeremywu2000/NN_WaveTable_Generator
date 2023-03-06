@@ -44,7 +44,7 @@ int main(void)
     while (1)
     {
         // Fill input buffer (use test value)
-        for (uint32_t i = 0; i < AI_SINE_MODEL_IN_1_SIZE; i++)
+        for (uint32_t i = 0; i < AI_VAE_IN_1_SIZE; i++)
         {
             ((ai_float *)in_data)[i] = (ai_float)2.0f;
         }
@@ -56,7 +56,7 @@ int main(void)
         }
 
         // Read output (predicted y) of neural network
-        y_val = ((float *)out_data)[0];
+        y_val = sizeof(out_data) / sizeof(float);
         hw.PrintLine(FLT_FMT3, FLT_VAR3(y_val));
     }
 }

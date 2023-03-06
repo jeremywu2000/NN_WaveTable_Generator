@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    vae.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Feb 15 16:29:38 2023
+  * @date    Wed Feb 22 14:27:50 2023
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -25,7 +25,7 @@
 
 /******************************************************************************/
 #define AI_VAE_MODEL_NAME          "vae"
-#define AI_VAE_ORIGIN_MODEL_NAME   "keras_decoder_untrained"
+#define AI_VAE_ORIGIN_MODEL_NAME   "keras_vae"
 
 /******************************************************************************/
 #define AI_VAE_ACTIVATIONS_ALIGNMENT   (4)

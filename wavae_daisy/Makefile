@@ -17,9 +17,9 @@ CPP_SOURCES += network.cpp
 
 # TODO replace with vae model
 C_SOURCES =  \
-$(CUBE_DIR)/X-CUBE-AI/App/sine_model.c \
-$(CUBE_DIR)/X-CUBE-AI/App/sine_model_data.c \
-$(CUBE_DIR)/X-CUBE-AI/App/sine_model_data_params.c \
+$(CUBE_DIR)/X-CUBE-AI/App/vae.c \
+$(CUBE_DIR)/X-CUBE-AI/App/vae_data.c \
+$(CUBE_DIR)/X-CUBE-AI/App/vae_data_params.c \
 
 C_INCLUDES =  \
 -I$(CUBE_DIR)/Middlewares/ST/AI/Inc \
