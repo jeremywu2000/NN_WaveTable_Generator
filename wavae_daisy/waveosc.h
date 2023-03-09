@@ -1,5 +1,4 @@
 #pragma once
-#include <math.h>
 
 #define WAVE_LEN 256
 
@@ -13,7 +12,7 @@ struct Wave
         return Interpolate(id);
     }
 
-  private:
+private:
     float Interpolate(float frame)
     {
         auto intPart = static_cast<size_t>(frame);
@@ -26,79 +25,79 @@ struct Wave
 
 class WaveOsc
 {
-  public:
-    void Init(float sr, Wave *wave)
+public:
+    WaveOsc() {}
+    ~WaveOsc() {}
+
+    /** Initializes the Oscillator
+
+        \param sample_rate - sample rate of the audio engine being run, and the frequency that the Process function will be called.
+        \param wave - pointer to the wave to iterate through.
+
+        Defaults:
+        - freq_ = 100 Hz
+        - amp_ = 0.5
+        - waveform_ = sine wave.
+    */
+    void Init(float sample_rate, Wave *wave)
     {
-        playWave = wave;
-        sample_rate = sr;
-        sr_resiprocal = 1 / sample_rate;
-        SetWave(wave);
-        SetFreq(440);
-        SetAmp(0.7f);
+        sr_ = sample_rate;
+        sr_recip_ = 1.0f / sample_rate;
+        freq_ = 100.0f;
+        amp_ = 0.5f;
+        phase_ = 0.0f;
+        phase_inc_ = CalcPhaseInc(freq_);
+
+        waveform_ = wave;
+        SetWaveform(wave);
     }
 
-    /**
-     * @brief  Set the data interpolation rate based on a looping frequency.
-     *
-     * This function determines the interpolation rate based on the file
-     * size and the current Stk::sampleRate.  The \e frequency value
-     * corresponds to file cycles per second.  The frequency can be
-     * negative, in which case the loop is read in reverse order.
-     *
-     * @param frequency Osc frequency in Hz.
+    /** Changes the frequency of the Oscillator, and recalculates phase increment.
+
+        \param f - Oscillator frequency in Hz.
      */
-    void SetFreq(float frequency)
+    inline void SetFreq(const float f)
     {
-        auto norm_freq = frequency * sr_resiprocal;
-        phaseInc = wave_size * norm_freq;
+        freq_ = f;
+        phase_inc_ = CalcPhaseInc(f);
     }
 
-    /**
-     * @brief Sets the amplitude
-     * 
-     * @param a 
+    /** Sets the amplitude of the waveform.
      */
-    void SetAmp(const float a)
-    {
-        amp = a;
-    }
+    inline void SetAmp(const float a) { amp_ = a; }
 
-    /**
-     * @brief Sets the next wave buffer
-     * 
-     * @param wave 
+    /** Sets the next waveform to be synthesized by the Process() function.
      */
-    void SetWave(Wave *wave)
+    inline void SetWaveform(Wave *wave)
     {
-        nextWave = wave;
-        wave_size = wave->wave_size;
+        nextWave_ = wave;
+        wave_size_ = wave->wave_size;
     }
 
-    /**
-     * @brief Compute a sample frame and return the value.
+    /** Returns true if cycle is at end of cycle. Set during call to Process.
      */
-    float Process()
-    {
-        if (curPhase >= wave_size)
-        {
-            curPhase -= wave_size;
-            playWave = nextWave;
-        }
+    inline bool IsEOC() { return eoc_; }
 
-        float out = playWave->GetSample(curPhase);
+    /** Processes the waveform to be generated, returning one sample. This should be called once per sample period.
+     */
+    float Process();
 
-        curPhase += phaseInc;
-        return out * amp;
-    }
+    /** Adds a value 0.0-1.0 (mapped to 0.0-wave_size_) to the current phase.
+     */
+    void PhaseAdd(float _phase) { phase_ += (_phase * wave_size_); }
 
-  private:
-    Wave *playWave;
-    Wave *nextWave;
-    size_t wave_size = 1;
+    /** Resets the phase to the input argument. If no argumeNt is present, it will reset phase to 0.0;
+     */
+    void Reset(float _phase = 0.0f) { phase_ = _phase; }
 
-    float sample_rate;
-    float sr_resiprocal;
-    float curPhase = 0.f;
-    float phaseInc;
-    float amp = 1;
+private:
+    float CalcPhaseInc(float f);
+
+    Wave *waveform_;
+    Wave *nextWave_;
+    size_t wave_size_ = 1;
+
+    float amp_, freq_;
+    float sr_, sr_recip_, phase_, phase_inc_;
+    bool eoc_;
 };
