@@ -106,11 +106,6 @@ AI_PACKED_STRUCT_END
 #define AI_SHAPE_ALLOCATE_STATIC(num_dim_) \
   AI_SHAPE_INIT((num_dim_), 0)
 
-#define AI_SHAPE_4D_ALLOCATE_STATIC \
-  AI_SHAPE_ALLOCATE_STATIC(4)
-
-#define AI_SHAPE_5D_ALLOCATE_STATIC \
-  AI_SHAPE_ALLOCATE_STATIC(5)
 
 typedef ai_u8    ai_shape_idx;
 
@@ -139,8 +134,6 @@ typedef ai_storage_klass ai_shape;
 #define AI_STRIDE_ALLOCATE_STATIC(num_dims_) \
   AI_STRIDE_INIT((num_dims_), 0)
 
-#define AI_STRIDE_4D_ALLOCATE_STATIC \
-  AI_STRIDE_ALLOCATE_STATIC(4)
 
 /*!
  * @struct ai_stride

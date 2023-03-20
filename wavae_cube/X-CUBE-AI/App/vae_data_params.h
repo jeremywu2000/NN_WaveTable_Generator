@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    vae_data_params.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Feb 22 14:27:50 2023
+  * @date    Mon Mar 20 15:15:46 2023
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * Copyright (c) 2023 STMicroelectronics.

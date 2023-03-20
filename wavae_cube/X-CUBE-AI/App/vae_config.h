@@ -3,7 +3,7 @@
   ******************************************************************************
   * @file    vae_config.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Feb 22 14:27:50 2023
+  * @date    Mon Mar 20 15:15:46 2023
   * @brief   AI Tool Automatic Code Generator for Custom Layers Implementation
   ******************************************************************************
   * @attention
@@ -24,10 +24,10 @@
 #undef AI_TOOLS_VERSION_MAJOR
 #undef AI_TOOLS_VERSION_MINOR
 #undef AI_TOOLS_VERSION_MICRO
-#define AI_TOOLS_VERSION_MAJOR 7
-#define AI_TOOLS_VERSION_MINOR 3
+#define AI_TOOLS_VERSION_MAJOR 8
+#define AI_TOOLS_VERSION_MINOR 0
 #define AI_TOOLS_VERSION_MICRO 0
-#define AI_TOOLS_VERSION_EXTRA "RC5"
+#define AI_TOOLS_VERSION_EXTRA "19389"
 
 
 #undef AI_PLATFORM_API_MAJOR

@@ -81,6 +81,9 @@
 /*****************************************************************************/
 #define AI_FLAG_NONE            (0x0)
 
+/*****************************************************************************/
+AI_API_DECLARE_BEGIN
+
 /*!
  * @typedef ai_flags
  * @ingroup ai_platform
@@ -938,5 +941,7 @@ ai_size ai_buffer_array_get_byte_size(const ai_buffer_array* barray);
 AI_API_ENTRY
 ai_bool ai_buffer_array_item_set_address(
   ai_buffer_array* barray, const ai_u32 pos, ai_handle address);
+
+AI_API_DECLARE_END
 
 #endif /*AI_PLATFORM_H*/
