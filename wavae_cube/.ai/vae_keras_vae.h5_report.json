@@ -1,7 +1,7 @@
 {
     "_allocate_inputs": 4,
     "_allocate_outputs": 4,
-    "cli_parameters": "generate --name vae -m C:/Users/simon/Downloads/keras_vae.h5 --type keras --compression none --verbosity 1 --workspace C:\\Users\\simon\\AppData\\Local\\Temp\\mxAI_workspace1903105229918004016466934788802233 --output C:\\Users\\simon\\.stm32cubemx\\network_output --allocate-inputs --series stm32h7 --allocate-outputs",
+    "cli_parameters": "generate --name vae -m C:/Users/simon/Documents/McGill University/ECSE 458D2 Capstone Design Project/NN_WaveTable_Generator/wavae_notebooks/keras_vae.h5 --type keras --compression none --verbosity 1 --workspace C:\\Users\\simon\\AppData\\Local\\Temp\\mxAI_workspace64826968541990015790480121250141442 --output C:\\Users\\simon\\.stm32cubemx\\network_output --allocate-inputs --series stm32h7 --allocate-outputs",
     "cli_version": {
         "major": 1,
         "micro": 0,
@@ -12,18 +12,20 @@
         "factor": null,
         "layers": {}
     },
-    "date_time": "Mon Mar 20 15:15:46 2023",
+    "date_time": "Wed Mar 29 11:23:07 2023",
     "error": 0,
     "error_str": [],
     "exec_cmd": "generate",
     "exec_duration": 0.0,
-    "hash": "9cb77466c48671851a24e493d74b60dd",
+    "hash": "a060e306d58d7354f4e417a4fede9f40",
     "inputs": [
-        "decoder_input"
+        "input_0"
     ],
     "layers": [
         {
-            "c_id": [],
+            "c_id": [
+                0
+            ],
             "extras": {
                 "n_macc": 0,
                 "n_params": 0,
@@ -40,18 +42,16 @@
                         1
                     ]
                 },
-                "rom_size": 0
+                "rom_size": 1024
             },
             "id": 0,
             "inputs": [],
-            "name": "decoder_input",
-            "original": "InputLayer",
+            "name": "input_0",
+            "original": null,
             "type": "Input"
         },
         {
-            "c_id": [
-                0
-            ],
+            "c_id": [],
             "extras": {
                 "n_macc": 4096,
                 "n_params": 256,
@@ -68,11 +68,11 @@
                         1
                     ]
                 },
-                "rom_size": 1024
+                "rom_size": 0
             },
-            "id": 1,
+            "id": 0,
             "inputs": [
-                "decoder_input"
+                "input_0"
             ],
             "name": "decoder_dense_1_dense",
             "original": "Dense",
@@ -86,7 +86,7 @@
                 "psize": 0,
                 "rom_size": 0
             },
-            "id": 2,
+            "id": 1,
             "inputs": [
                 "decoder_dense_1_dense"
             ],
@@ -97,42 +97,12 @@
         {
             "c_id": [
                 1,
-                2,
-                3,
-                4
+                2
             ],
             "extras": {
                 "n_macc": 0,
                 "n_params": 2064,
                 "psize": 8256,
-                "rom_output": {
-                    "c_size": 8128,
-                    "fmt": {
-                        "format": "float"
-                    },
-                    "shape": [
-                        1,
-                        127,
-                        16,
-                        1
-                    ]
-                },
-                "rom_size": 8256
-            },
-            "id": 3,
-            "inputs": [
-                "decoder_reshape"
-            ],
-            "name": "decoder_conv2dT_1_conv2d",
-            "original": "Conv2DTranspose",
-            "type": "ConvTranspose"
-        },
-        {
-            "c_id": [],
-            "extras": {
-                "n_macc": 2048,
-                "n_params": 0,
-                "psize": 0,
                 "rom_output": {
                     "c_size": 8192,
                     "fmt": {
@@ -145,55 +115,41 @@
                         1
                     ]
                 },
-                "rom_size": 0
+                "rom_size": 8256
             },
-            "id": 3,
+            "id": 2,
             "inputs": [
-                "decoder_conv2dT_1_conv2d"
+                "decoder_reshape"
             ],
-            "name": "decoder_conv2dT_1",
-            "original": "Conv2DTranspose",
-            "type": "Nonlinearity"
-        },
-        {
-            "c_id": [
-                5,
-                6,
-                7,
-                8
-            ],
-            "extras": {
-                "n_macc": 0,
-                "n_params": 65,
-                "psize": 260,
-                "rom_output": {
-                    "c_size": 1020,
-                    "fmt": {
-                        "format": "float"
-                    },
-                    "shape": [
-                        1,
-                        255,
-                        1,
-                        1
-                    ]
-                },
-                "rom_size": 260
-            },
-            "id": 4,
-            "inputs": [
-                "decoder_conv2dT_1"
-            ],
-            "name": "decoder_output_conv2d",
+            "name": "conv2dT_1_conv2d",
             "original": "Conv2DTranspose",
             "type": "ConvTranspose"
         },
         {
             "c_id": [],
             "extras": {
-                "n_macc": 2560,
+                "n_macc": 2048,
                 "n_params": 0,
                 "psize": 0,
+                "rom_size": 0
+            },
+            "id": 2,
+            "inputs": [
+                "conv2dT_1_conv2d"
+            ],
+            "name": "conv2dT_1",
+            "original": "Conv2DTranspose",
+            "type": "Nonlinearity"
+        },
+        {
+            "c_id": [
+                3,
+                4
+            ],
+            "extras": {
+                "n_macc": 0,
+                "n_params": 65,
+                "psize": 260,
                 "rom_output": {
                     "c_size": 1024,
                     "fmt": {
@@ -206,9 +162,25 @@
                         1
                     ]
                 },
+                "rom_size": 260
+            },
+            "id": 3,
+            "inputs": [
+                "conv2dT_1"
+            ],
+            "name": "decoder_output_conv2d",
+            "original": "Conv2DTranspose",
+            "type": "ConvTranspose"
+        },
+        {
+            "c_id": [],
+            "extras": {
+                "n_macc": 2560,
+                "n_params": 0,
+                "psize": 0,
                 "rom_size": 0
             },
-            "id": 4,
+            "id": 3,
             "inputs": [
                 "decoder_output_conv2d"
             ],
@@ -218,7 +190,7 @@
         }
     ],
     "model_files": [
-        "C:\\Users\\simon\\Downloads\\keras_vae.h5"
+        "C:\\Users\\simon\\Documents\\McGill University\\ECSE 458D2 Capstone Design Project\\NN_WaveTable_Generator\\wavae_notebooks\\keras_vae.h5"
     ],
     "model_n_params": 2385,
     "model_name": "keras_vae",
@@ -226,7 +198,7 @@
     "model_type": "keras",
     "name": "vae",
     "outputs": [
-        "decoder"
+        "decoder_conv2d"
     ],
     "ram_io_size": [
         64,
@@ -243,15 +215,15 @@
         {
             "c_size": 64,
             "c_type": "float",
-            "name": "decoder_input"
+            "name": "input_0"
         }
     ],
-    "rom_n_macc": 285137,
+    "rom_n_macc": 287249,
     "rom_outputs": [
         {
             "c_size": 1024,
             "c_type": "float",
-            "name": "decoder"
+            "name": "decoder_conv2d"
         }
     ],
     "rom_size": 9540,

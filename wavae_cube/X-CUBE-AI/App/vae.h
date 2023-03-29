@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    vae.h
   * @author  AST Embedded Analytics Research Platform
-  * @date    Mon Mar 20 15:15:46 2023
+  * @date    Wed Mar 29 11:23:07 2023
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -71,7 +71,7 @@ AI_DEPRECATED
 #define AI_VAE_OUT_1_SIZE_BYTES  (1024)
 
 /******************************************************************************/
-#define AI_VAE_N_NODES (9)
+#define AI_VAE_N_NODES (5)
 
 
 AI_API_DECLARE_BEGIN
