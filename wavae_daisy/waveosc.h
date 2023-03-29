@@ -5,21 +5,32 @@
 struct Wave
 {
     static const size_t wave_size = WAVE_LEN;
-    float samples[wave_size + 1]{0};
+    float samples[wave_size]{0};
 
-    float GetSample(float id)
+    float GetSample(float idx)
     {
-        return Interpolate(id);
+        auto x = static_cast<size_t>(idx);
+        float x_offset = idx - static_cast<float>(x);
+
+        float ym1 = samples[(x + wave_size - 1) % wave_size];
+        float y0 = samples[x];
+        float y1 = samples[(x + 1) % wave_size];
+        float y2 = samples[(x + 2) % wave_size];
+
+        return Interpolate(x_offset, ym1, y0, y1, y2);
     }
 
 private:
-    float Interpolate(float frame)
+    float Interpolate(float x_offset, float ym1, float y0, float y1, float y2)
     {
-        auto intPart = static_cast<size_t>(frame);
-        float fracPart = frame - static_cast<float>(intPart);
-        float samp0 = samples[intPart];
-        float samp1 = samples[intPart + 1];
-        return samp0 + (samp1 - samp0) * fracPart;
+        // Hermite interpolation
+        float c = (y1 - ym1) * 0.5f;
+        float v = y0 - y1;
+        float w = c + v;
+        float a = w + v + (y2 - y0) * 0.5f;
+        float b_neg = w + a;
+
+        return ((((a * x_offset) - b_neg) * x_offset + c) * x_offset + y0);
     }
 };
 
