@@ -9,7 +9,7 @@ using namespace daisysp;
 DaisyPatchSM hw;
 WaveOsc osc;
 Wave DSY_SDRAM_BSS sine;
-Wave DSY_SDRAM_BSS tri;
+Wave DSY_SDRAM_BSS saw;
 
 constexpr float TWO_PI_RECIP = 1.0f / TWOPI_F;
 
@@ -46,14 +46,17 @@ int main(void)
 		sine.samples[i] = sinf(i * phase);
 	}
 
-	float t;
+	float t = WAVE_LEN / 2;
+	float step = 1 / t;
 	for (size_t i = 0; i < WAVE_LEN; i++)
 	{
-		t = -1.0f + (2.0f * i * phase * TWO_PI_RECIP);
-		tri.samples[i] = 2.0f * (fabsf(t) - 0.5f);
+		if (i <= t)
+			saw.samples[i] = i * step;
+		else
+			saw.samples[i] = (i - t) * step - 1;
 	}
 
-	osc.Init(hw.AudioSampleRate(), &sine);
+	osc.Init(hw.AudioSampleRate(), &saw);
 	hw.StartAudio(AudioCallback);
 	while (1)
 	{
