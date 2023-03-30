@@ -23,7 +23,7 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 
 	for (size_t i = 0; i < size; i++)
 	{
-		OUT_L[i] = OUT_R[i] = osc.Process() * adsr.Process(noteOn != -1);
+		OUT_L[i] = OUT_R[i] = osc.Process() * adsr.Process(noteOn != (uint8_t)-1);
 	}
 }
 
