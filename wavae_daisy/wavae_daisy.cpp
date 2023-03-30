@@ -1,20 +1,4 @@
-#include "daisy_patch_sm.h"
-#include "daisysp.h"
-#include "waveosc.h"
-#include "network.h"
-
-using namespace daisy;
-using namespace patch_sm;
-using namespace daisysp;
-
-DaisyPatchSM hw;
-MidiUsbHandler midi;
-WaveOsc osc;
-Adsr adsr;
-
-uint8_t noteOn;
-Wave DSY_SDRAM_BSS wave_buf_one;
-Wave DSY_SDRAM_BSS wave_buf_two;
+#include "wavae_daisy.h"
 
 void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
 {
@@ -24,87 +8,115 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 	}
 }
 
-int main(void)
+void Init()
 {
+	/** Harware initialization */
 	hw.Init();
+	hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
 	__HAL_RCC_CRC_CLK_ENABLE(); // Enable STM32 CRC IP to use the network-runtime library
 
-	hw.StartLog(true);
-	hw.PrintLine("Daisy Patch SM started. Test Beginning");
-
-	/** Initialize USB Midi */
-	MidiUsbHandler::Config midi_cfg;
-	midi_cfg.transport_config.periph = MidiUsbTransport::Config::INTERNAL;
-	midi.Init(midi_cfg);
-
-	int err = 0;
-
 	/** Create network instance */
-	err = aiInit();
-	if (err != 0)
+	if (aiInit() != 0)
 	{
-		hw.PrintLine("Error: %d could not create and initialize NN", err);
+		hw.StartLog(true);
+		hw.PrintLine("Error: could not create and initialize NN");
 		while (1)
 			;
 	}
 
-	/** Configure audio peripherals */
-	hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
-	noteOn = -1;
-	adsr.Init(hw.AudioSampleRate());
-	// Initial inference for starting wave
-	if (aiRun(in_data, out_data) != 0)
+	/** Oscillator Initialization */
+	if (aiRun(in_data, wave_buf_one.samples) != 0) // Initial inference for starting wave
 	{
+		hw.StartLog(true);
 		hw.PrintLine("Error: could not run inference");
 	}
+	updateBuffer = &wave_buf_two;
 	osc.Init(hw.AudioSampleRate(), &wave_buf_one);
+
+	/** USB Midi Initialization */
+	MidiUsbHandler::Config midi_cfg;
+	midi_cfg.transport_config.periph = MidiUsbTransport::Config::INTERNAL;
+	midi.Init(midi_cfg);
+
+	noteOn = -1;
+	adsr.Init(hw.AudioSampleRate());
+}
+
+int main(void)
+{
+	Init();
 
 	hw.StartAudio(AudioCallback);
 	while (1)
 	{
 		/** Listen to MIDI for new changes */
 		midi.Listen();
-
-		/** When there are messages waiting in the queue... */
 		while (midi.HasEvents())
 		{
-			/** Pull the oldest one from the list... */
 			auto msg = midi.PopEvent();
 			switch (msg.type)
 			{
 			case NoteOn:
-			{
-				/** and change the frequency of the oscillator */
-				auto note_msg = msg.AsNoteOn();
-				if (note_msg.velocity != 0)
-				{
-					noteOn = note_msg.note;
-					osc.SetFreq(daisysp::mtof(noteOn));
-					hw.SetLed(true);
-				}
-				else
-				{
-					if (noteOn == note_msg.note)
-					{
-						noteOn = -1;
-						hw.SetLed(false);
-					}
-				}
-			}
-			break;
+				NoteOnMsg(msg);
+				break;
 			case NoteOff:
-			{
-				auto note_msg = msg.AsNoteOff();
-				if (noteOn == note_msg.note)
-				{
-					noteOn = -1;
-					hw.SetLed(false);
-				}
-			}
-			break;
+				NoteOffMsg(msg);
+				break;
+			case ControlChange:
+				CCMsg(msg);
+				break;
 			default:
 				break;
 			}
 		}
+
+		/** Generate new wave */
+		if (updateTable)
+		{
+			if (aiRun(in_data, updateBuffer->samples) != 0)
+			{
+				hw.PrintLine("Error: could not run inference");
+			}
+			updateBuffer = osc.SetWaveform(updateBuffer);
+			updateTable = false;
+		}
 	}
+}
+
+void NoteOnMsg(MidiEvent msg)
+{
+	auto note_msg = msg.AsNoteOn();
+	if (note_msg.velocity != 0)
+	{
+		/** change the frequency of the oscillator */
+		noteOn = note_msg.note;
+		osc.SetFreq(daisysp::mtof(noteOn));
+		hw.SetLed(true);
+	}
+	else
+	{
+		if (noteOn == note_msg.note)
+		{
+			noteOn = -1;
+			hw.SetLed(false);
+		}
+	}
+}
+
+void NoteOffMsg(MidiEvent msg)
+{
+	auto note_msg = msg.AsNoteOff();
+	if (noteOn == note_msg.note)
+	{
+		noteOn = -1;
+		hw.SetLed(false);
+	}
+}
+
+void CCMsg(MidiEvent msg)
+{
+	auto cc_msg = msg.AsControlChange();
+	ai_float data = midiMap(cc_msg.value, -1.0f, 1.0f);
+	in_data[cc_msg.control_number % AI_VAE_IN_1_WIDTH] = data;
+	updateTable = true;
 }

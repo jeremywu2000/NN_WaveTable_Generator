@@ -3,10 +3,11 @@ TARGET = wavae_daisy
 
 # Sources
 CPP_SOURCES = wavae_daisy.cpp \
-	waveosc.cpp
+	vaeosc.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../libDaisy/
+DAISYSP_DIR = ../DaisySP/
 
 ######################################
 # Cube_AI

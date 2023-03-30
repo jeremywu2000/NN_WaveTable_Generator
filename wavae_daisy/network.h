@@ -6,18 +6,19 @@
 // Pointer to our model
 static ai_handle vae = AI_HANDLE_NULL;
 
-// Chunk of memory used to hold intermediate values for neural network
-AI_ALIGNED(4)
+/* Global array to handle the activations buffer */
+AI_ALIGNED(32)
 static ai_u8 activations[AI_VAE_DATA_ACTIVATIONS_SIZE];
 
-// Buffers used to store input and output tensors
-AI_ALIGNED(4)
-static ai_i8 in_data[AI_VAE_IN_1_SIZE_BYTES];
-AI_ALIGNED(4)
-static ai_i8 out_data[AI_VAE_OUT_1_SIZE_BYTES];
+// Buffer used to store input tensors
+AI_ALIGNED(32)
+static ai_float in_data[AI_VAE_IN_1_SIZE]{0};
 
-// Initialize wrapper structs that hold pointers to data and info about the
-// data (tensor height, width, channels)
+// Buffer used to store output tensors
+// AI_ALIGNED(32)
+// static ai_float out_data[AI_VAE_OUT_1_SIZE];
+
+/* Array of pointer to manage the model's input/output tensors */
 static ai_buffer *ai_input;
 static ai_buffer *ai_output;
 
