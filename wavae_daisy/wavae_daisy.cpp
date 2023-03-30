@@ -4,7 +4,7 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 {
 	for (size_t i = 0; i < size; i++)
 	{
-		OUT_L[i] = OUT_R[i] = osc.Process() * adsr.Process(noteOn != -1);
+		OUT_L[i] = OUT_R[i] = osc.Process() * adsr.Process(noteOn != (uint8_t)-1);
 	}
 }
 
@@ -29,6 +29,8 @@ void Init()
 	{
 		hw.StartLog(true);
 		hw.PrintLine("Error: could not run inference");
+		while (1)
+			;
 	}
 	updateBuffer = &wave_buf_two;
 	osc.Init(hw.AudioSampleRate(), &wave_buf_one);
@@ -75,6 +77,7 @@ int main(void)
 		{
 			if (aiRun(in_data, updateBuffer->samples) != 0)
 			{
+				hw.StartLog(true);
 				hw.PrintLine("Error: could not run inference");
 			}
 			updateBuffer = osc.SetWaveform(updateBuffer);
