@@ -9,7 +9,7 @@ DaisyPatchSM hw;
 MidiUsbHandler midi;
 Oscillator osc;
 
-uint8_t noteOn;
+int8_t noteOn;
 Adsr adsr;
 
 void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
