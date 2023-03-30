@@ -2,7 +2,8 @@
 TARGET = wavae_daisy
 
 # Sources
-CPP_SOURCES = wavae_daisy.cpp
+CPP_SOURCES = wavae_daisy.cpp \
+	waveosc.cpp
 
 # Library Locations
 LIBDAISY_DIR = ../libDaisy/
