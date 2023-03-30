@@ -27,7 +27,7 @@ C_INCLUDES =  \
 
 # LDFLAGS
 LIBS =  \
--l:NetworkRuntime730_CM7_GCC.a
+-l:NetworkRuntime800_CM7_GCC.a
 LIBDIR =  \
 -L$(CUBE_DIR)/Middlewares/ST/AI/Lib
 ######################################
