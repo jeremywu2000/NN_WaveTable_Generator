@@ -1,6 +1,7 @@
 #include "daisy_patch_sm.h"
 #include "daisysp.h"
 #include "waveosc.h"
+#include "network.h"
 
 using namespace daisy;
 using namespace patch_sm;
@@ -9,18 +10,14 @@ using namespace daisysp;
 DaisyPatchSM hw;
 MidiUsbHandler midi;
 WaveOsc osc;
-
-Wave DSY_SDRAM_BSS sine;
-Wave DSY_SDRAM_BSS saw;
-constexpr float TWO_PI_RECIP = 1.0f / TWOPI_F;
+Adsr adsr;
 
 uint8_t noteOn;
-Adsr adsr;
+Wave DSY_SDRAM_BSS wave_buf_one;
+Wave DSY_SDRAM_BSS wave_buf_two;
 
 void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, size_t size)
 {
-	hw.ProcessAllControls();
-
 	for (size_t i = 0; i < size; i++)
 	{
 		OUT_L[i] = OUT_R[i] = osc.Process() * adsr.Process(noteOn != -1);
@@ -30,35 +27,37 @@ void AudioCallback(AudioHandle::InputBuffer in, AudioHandle::OutputBuffer out, s
 int main(void)
 {
 	hw.Init();
+	__HAL_RCC_CRC_CLK_ENABLE(); // Enable STM32 CRC IP to use the network-runtime library
+
+	hw.StartLog(true);
+	hw.PrintLine("Daisy Patch SM started. Test Beginning");
 
 	/** Initialize USB Midi */
 	MidiUsbHandler::Config midi_cfg;
 	midi_cfg.transport_config.periph = MidiUsbTransport::Config::INTERNAL;
 	midi.Init(midi_cfg);
 
-	float phase = TWOPI_F / (float)WAVE_LEN;
-	for (size_t i = 0; i < WAVE_LEN; i++)
+	int err = 0;
+
+	/** Create network instance */
+	err = aiInit();
+	if (err != 0)
 	{
-		sine.samples[i] = sinf(i * phase);
+		hw.PrintLine("Error: %d could not create and initialize NN", err);
+		while (1)
+			;
 	}
 
-	float t = WAVE_LEN / 2;
-	float step = 1 / t;
-	for (size_t i = 0; i < WAVE_LEN; i++)
-	{
-		if (i <= t)
-			saw.samples[i] = i * step;
-		else
-			saw.samples[i] = (i - t) * step - 1;
-	}
-
-	/** Configure audio handler */
+	/** Configure audio peripherals */
 	hw.SetAudioSampleRate(SaiHandle::Config::SampleRate::SAI_48KHZ);
-
-	/** Initialize our tone */
-	osc.Init(hw.AudioSampleRate(), &saw);
 	noteOn = -1;
 	adsr.Init(hw.AudioSampleRate());
+	// Initial inference for starting wave
+	if (aiRun(in_data, out_data) != 0)
+	{
+		hw.PrintLine("Error: could not run inference");
+	}
+	osc.Init(hw.AudioSampleRate(), &wave_buf_one);
 
 	hw.StartAudio(AudioCallback);
 	while (1)
