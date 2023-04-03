@@ -1,35 +1,35 @@
 Neural Network Tools for STM32AI v1.7.0 (STM.ai v8.0.0-19389)
-Created date          : 2023-03-29 11:23:08
-Parameters            : generate --name vae -m C:/Users/simon/Documents/McGill University/ECSE 458D2 Capstone Design Project/NN_WaveTable_Generator/wavae_notebooks/keras_vae.h5 --type keras --compression none --verbosity 1 --workspace C:\Users\simon\AppData\Local\Temp\mxAI_workspace64826968541990015790480121250141442 --output C:\Users\simon\.stm32cubemx\network_output --allocate-inputs --series stm32h7 --allocate-outputs
+Created date          : 2023-04-03 14:12:36
+Parameters            : generate --name vae -m C:/Users/simon/Downloads/keras_vae_20230403-135924.h5 --type keras --compression none --verbosity 1 --workspace C:\Users\simon\AppData\Local\Temp\mxAI_workspace1090449467597500506594825901358474 --output C:\Users\simon\.stm32cubemx\network_output --allocate-inputs --series stm32h7 --allocate-outputs
 
 Exec/report summary (generate)
------------------------------------------------------------------------------------------------------------------------------------------------------------
-model file         :   C:\Users\simon\Documents\McGill University\ECSE 458D2 Capstone Design Project\NN_WaveTable_Generator\wavae_notebooks\keras_vae.h5   
-type               :   keras                                                                                                                               
-c_name             :   vae                                                                                                                                 
-compression        :   none                                                                                                                                
-options            :   allocate-inputs, allocate-outputs                                                                                                   
-optimization       :   balanced                                                                                                                            
-target/series      :   stm32h7                                                                                                                             
-workspace dir      :   C:\Users\simon\AppData\Local\Temp\mxAI_workspace64826968541990015790480121250141442                                                 
-output dir         :   C:\Users\simon\.stm32cubemx\network_output                                                                                          
-model_fmt          :   float                                                                                                                               
-model_name         :   keras_vae                                                                                                                           
-model_hash         :   a060e306d58d7354f4e417a4fede9f40                                                                                                    
-params #           :   2,385 items (9.32 KiB)                                                                                                              
------------------------------------------------------------------------------------------------------------------------------------------------------------
-input 1/1          :   'input_0' (domain:activations/**default**)                                                                                          
-                   :   16 items, 64 B, ai_float, float, (1,1,16,1)                                                                                         
-output 1/1         :   'decoder_conv2d' (domain:activations/**default**)                                                                                   
-                   :   256 items, 1024 B, ai_float, float, (1,1,256,1)                                                                                     
-macc               :   287,249                                                                                                                             
-weights (ro)       :   9,540 B (9.32 KiB) (1 segment)                                                                                                      
-activations (rw)   :   24,512 B (23.94 KiB) (1 segment) *                                                                                                  
-ram (total)        :   24,512 B (23.94 KiB) = 24,512 + 0 + 0                                                                                               
------------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------
+model file         :   C:\Users\simon\Downloads\keras_vae_20230403-135924.h5                                
+type               :   keras                                                                                
+c_name             :   vae                                                                                  
+compression        :   none                                                                                 
+options            :   allocate-inputs, allocate-outputs                                                    
+optimization       :   balanced                                                                             
+target/series      :   stm32h7                                                                              
+workspace dir      :   C:\Users\simon\AppData\Local\Temp\mxAI_workspace1090449467597500506594825901358474   
+output dir         :   C:\Users\simon\.stm32cubemx\network_output                                           
+model_fmt          :   float                                                                                
+model_name         :   keras_vae_20230403135924                                                             
+model_hash         :   8d57e2dd1259d8573ab379570d038ff0                                                     
+params #           :   2,385 items (9.32 KiB)                                                               
+------------------------------------------------------------------------------------------------------------
+input 1/1          :   'input_0' (domain:activations/**default**)                                           
+                   :   16 items, 64 B, ai_float, float, (1,1,16,1)                                          
+output 1/1         :   'decoder_conv2d' (domain:activations/**default**)                                    
+                   :   256 items, 1024 B, ai_float, float, (1,1,256,1)                                      
+macc               :   287,249                                                                              
+weights (ro)       :   9,540 B (9.32 KiB) (1 segment)                                                       
+activations (rw)   :   24,512 B (23.94 KiB) (1 segment) *                                                   
+ram (total)        :   24,512 B (23.94 KiB) = 24,512 + 0 + 0                                                
+------------------------------------------------------------------------------------------------------------
 (*) 'input'/'output' buffers can be used from the activations buffer
 
-Model name - keras_vae ['input_0'] ['decoder_conv2d']
+Model name - keras_vae_20230403135924 ['input_0'] ['decoder_conv2d']
 ------ -------------------------------------------------------- ------------------------- ------------- ------- ----------------------- --- ----------------- ------------------- ------------------------------------ 
 m_id   layer (type,original)                                    oshape                    param/size       macc            connected to   | c_size            c_macc              c_type                               
 ------ -------------------------------------------------------- ------------------------- ------------- ------- ----------------------- --- ----------------- ------------------- ------------------------------------ 
@@ -50,7 +50,7 @@ model/c-model: macc=8,704/287,249 +278,545(+3200.2%) weights=9,540/9,540  activa
 
 Generated C-graph summary
 ------------------------------------------------------------------------------------------------------------------------
-model name            : keras_vae
+model name            : keras_vae_20230403135924
 c-name                : vae
 c-node #              : 5
 c-array #             : 12

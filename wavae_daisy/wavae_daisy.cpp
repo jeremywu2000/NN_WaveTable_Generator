@@ -25,7 +25,7 @@ void Init()
 	}
 
 	/** Oscillator Initialization */
-	if (aiRun(in_data, wave_buf_one.samples) != 0) // Initial inference for starting wave
+	if (aiRun(in_ref, wave_buf_one.samples) != 0) // Initial inference for starting wave
 	{
 		hw.StartLog(true);
 		hw.PrintLine("Error: could not run inference");
@@ -119,7 +119,22 @@ void NoteOffMsg(MidiEvent msg)
 void CCMsg(MidiEvent msg)
 {
 	auto cc_msg = msg.AsControlChange();
-	ai_float data = midiMap(cc_msg.value, -1.0f, 1.0f);
-	in_data[cc_msg.control_number % AI_VAE_IN_1_WIDTH] = data;
-	updateTable = true;
+	if (cc_msg.control_number == 7)
+	{
+		osc.SetAmp(midiMap(cc_msg.value, 0.001f, 0.7f));
+	}
+	else if (cc_msg.control_number == 1)
+	{
+		for (size_t i = 0; i < AI_VAE_IN_1_WIDTH; i++)
+		{
+			in_data[i] = in_ref[i] + in_scale[i] * cc_msg.value;
+		}
+		updateTable = true;
+	}
+	else
+	{
+		ai_float data = midiMap(cc_msg.value, -1.0f, 1.0f);
+		in_data[cc_msg.control_number % AI_VAE_IN_1_WIDTH] = data;
+		updateTable = true;
+	}
 }

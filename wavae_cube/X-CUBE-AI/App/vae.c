@@ -2,7 +2,7 @@
   ******************************************************************************
   * @file    vae.c
   * @author  AST Embedded Analytics Research Platform
-  * @date    Wed Mar 29 11:23:07 2023
+  * @date    Mon Apr  3 14:12:36 2023
   * @brief   AI Tool Automatic Code Generator for Embedded NN computing
   ******************************************************************************
   * @attention
@@ -35,14 +35,14 @@
 #define AI_NET_OBJ_INSTANCE g_vae
  
 #undef AI_VAE_MODEL_SIGNATURE
-#define AI_VAE_MODEL_SIGNATURE     "a060e306d58d7354f4e417a4fede9f40"
+#define AI_VAE_MODEL_SIGNATURE     "8d57e2dd1259d8573ab379570d038ff0"
 
 #ifndef AI_TOOLS_REVISION_ID
 #define AI_TOOLS_REVISION_ID     ""
 #endif
 
 #undef AI_TOOLS_DATE_TIME
-#define AI_TOOLS_DATE_TIME   "Wed Mar 29 11:23:07 2023"
+#define AI_TOOLS_DATE_TIME   "Mon Apr  3 14:12:36 2023"
 
 #undef AI_TOOLS_COMPILE_TIME
 #define AI_TOOLS_COMPILE_TIME    __DATE__ " " __TIME__
